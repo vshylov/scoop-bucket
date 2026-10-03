@@ -1,42 +1,44 @@
-# Scoop Bucket Template
+# scoop-bucket
 
-<!-- Uncomment the following line after replacing placeholders -->
-<!-- [![Tests](https://github.com/<username>/<bucketname>/actions/workflows/ci.yml/badge.svg)](https://github.com/<username>/<bucketname>/actions/workflows/ci.yml) [![Excavator](https://github.com/<username>/<bucketname>/actions/workflows/excavator.yml/badge.svg)](https://github.com/<username>/<bucketname>/actions/workflows/excavator.yml) -->
+[![Tests](https://github.com/vshylov/scoop-bucket/actions/workflows/ci.yml/badge.svg)](https://github.com/vshylov/scoop-bucket/actions/workflows/ci.yml) [![Excavator](https://github.com/vshylov/scoop-bucket/actions/workflows/excavator.yml/badge.svg)](https://github.com/vshylov/scoop-bucket/actions/workflows/excavator.yml)
 
-Template bucket for [Scoop](https://scoop.sh), the Windows command-line installer.
+A [Scoop](https://scoop.sh) bucket for **[mindfork](https://mindfork.io)** — a
+terminal AI chat written in Rust: local models via llama.cpp, or OpenAI,
+Anthropic, Gemini, Grok and OpenRouter in the cloud, with persistent memory,
+notes, RAG and tools.
 
-## How do I use this template?
-
-1. Generate your own copy of this repository with the "Use this template"
-   button.
-2. Allow all GitHub Actions:
-   - Navigate to `Settings` - `Actions` - `General` - `Actions permissions`.
-   - Select `Allow all actions and reusable workflows`.
-   - Then `Save`.
-3. Workflow permissions:
-   - Navigate to `Settings` - `Actions` - `General` - `Workflow permissions`.
-   - Ensure `Read repository contents and packages permissions` is selected.
-   - Then `Save`.
-4. Document the bucket in `README.md`.
-5. Replace the placeholder repository string in `bin/auto-pr.ps1`.
-6. Create new manifests by copying `bucket/app-name.json.template` to
-   `bucket/<app-name>.json`.
-7. Commit and push changes.
-8. If you'd like your bucket to be indexed on `https://scoop.sh`, add the
-   topic `scoop-bucket` to your repository.
-
-## How do I install these manifests?
-
-After manifests have been committed and pushed, run the following:
+## Install
 
 ```pwsh
-scoop bucket add <bucketname> https://github.com/<username>/<bucketname>
-scoop install <bucketname>/<manifestname>
+scoop bucket add mindfork https://github.com/vshylov/scoop-bucket
+scoop install mindfork/mindfork
 ```
 
-## How do I contribute new manifests?
+Then run `mindfork` in any terminal — or `mindfork demo` to look around with
+sample chats and a scripted engine, no model and no key needed.
 
-To make a new manifest contribution, please read the [Contributing
-Guide](https://github.com/ScoopInstaller/.github/blob/main/.github/CONTRIBUTING.md)
-and [App Manifests](https://github.com/ScoopInstaller/Scoop/wiki/App-Manifests)
-wiki page.
+## What it installs
+
+- The release's portable Windows build
+  (`mindfork-rs-vX.Y.Z-x86_64-windows.zip`), its hash checked against the
+  release's own `sha256sums.txt`.
+- A `defaults.json` beside the binary that says `{ "mode": "system" }`: your
+  chats, notes and settings live in `%APPDATA%\mindfork-rs\data`, so an update
+  or a `scoop uninstall` leaves them where they are — the location the Windows
+  installer recommends too. What the file can say instead is in
+  [install.md §2.1](https://github.com/vshylov/mindfork-rs/blob/main/docs/install.md#21-installation-defaults-defaultsjson).
+- `mindfork` on your `PATH`, and a Start menu shortcut.
+
+## Updates
+
+[Excavator](.github/workflows/excavator.yml) looks for a new release every four
+hours and commits the manifest for it, its hash taken from that release's
+`sha256sums.txt`; `scoop update mindfork` then installs it.
+
+## Where to report what
+
+A problem with the app — [mindfork-rs issues](https://github.com/vshylov/mindfork-rs/issues).
+A problem with installing it through Scoop — [this repository's issues](https://github.com/vshylov/scoop-bucket/issues).
+
+The manifests are in the public domain ([LICENSE](LICENSE), the Unlicense);
+mindfork itself is MIT.
