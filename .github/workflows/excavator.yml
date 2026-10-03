@@ -1,3 +1,6 @@
+# Checks every manifest's `checkver` for a new upstream version and commits
+# the `autoupdate`d manifest - for mindfork, the newest GitHub release, its
+# hash read from that release's sha256sums.txt.
 name: Excavator
 
 on:
